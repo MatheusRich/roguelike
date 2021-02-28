@@ -3,6 +3,7 @@
 require "rich_engine"
 require "roguelike/version"
 require "roguelike/actions"
+require "roguelike/entity"
 require "roguelike/event_handler"
 
 module Roguelike
@@ -15,8 +16,8 @@ module Roguelike
       @canvas = RichEngine::Canvas.new(@width, @height, bg: ".")
       @game_over = false
 
-      @player_x = @width / 2
-      @player_y = @height / 2
+      @player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
+      @npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :yellow)
 
       @event_handler = EventHandler.new
     end
@@ -25,14 +26,13 @@ module Roguelike
       action = @event_handler.ev_keydown(key)
 
       if action.is_a? MovementAction
-        @player_x += action.dx
-        @player_y += action.dy
+        @player.move(dx: action.dx, dy: action.dy)
       elsif action.is_a? EscapeAction
         game_over!
       end
 
       @canvas.clear
-      @canvas[@player_x, @player_y] = "@"
+      @canvas[@player.x, @player.y] = @player.char
       render
 
       sleep 0.001
