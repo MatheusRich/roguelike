@@ -2,6 +2,8 @@
 
 require "rich_engine"
 require "roguelike/version"
+require "roguelike/actions"
+require "roguelike/event_handler"
 
 module Roguelike
   class Error < StandardError; end
@@ -15,26 +17,40 @@ module Roguelike
 
       @player_x = @width / 2
       @player_y = @height / 2
+
+      @event_handler = EventHandler.new
     end
 
     def on_update(_dt, key)
-      @game_over = key == :q
+      action = @event_handler.ev_keydown(key)
+
+      if action.is_a? MovementAction
+        @player_x += action.dx
+        @player_y += action.dy
+      elsif action.is_a? EscapeAction
+        game_over!
+      end
 
       @canvas.clear
-
       @canvas[@player_x, @player_y] = "@"
-      # @canvas.write_string("Yet Another Roguelike Tutorial", x: 0, y: 0)
       render
 
-      # sleep [FPS - dt, 0].max
       sleep 0.001
 
-      !@game_over
+      keep_playing?
     end
 
     def render
       super
       puts "Yet Another Roguelike Tutorial"
+    end
+
+    def keep_playing?
+      !@game_over
+    end
+
+    def game_over!
+      @game_over = true
     end
   end
 end
