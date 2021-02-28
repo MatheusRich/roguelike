@@ -2,12 +2,12 @@
 
 require "rich_engine"
 require "roguelike/version"
-require "roguelike/actions"
+require "roguelike/engine"
 require "roguelike/entity"
 require "roguelike/event_handler"
 
 module Roguelike
-  class Error < StandardError; end
+  class Exit < StandardError; end
 
   class Game < RichEngine::Game
     FPS = 1.0 / 60
@@ -17,32 +17,27 @@ module Roguelike
       @game_over = false
 
       @player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
-      @npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :yellow)
+      @npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)
 
       @event_handler = EventHandler.new
+      @engine = Engine.new(entities: [@player, @npc], event_handler: @event_handler, player: @player)
     end
 
     def on_update(_dt, key)
-      action = @event_handler.ev_keydown(key)
-
-      if action.is_a? MovementAction
-        @player.move(dx: action.dx, dy: action.dy)
-      elsif action.is_a? EscapeAction
-        game_over!
-      end
-
-      @canvas.clear
-      @canvas[@player.x, @player.y] = @player.char
-      render
+      @engine.render(@canvas, @io)
+      check_game_over { @engine.handle_events(key) }
 
       sleep 0.001
 
       keep_playing?
     end
 
-    def render
-      super
-      puts "Yet Another Roguelike Tutorial"
+    private
+
+    def check_game_over
+      yield
+    rescue Roguelike::Exit
+      game_over!
     end
 
     def keep_playing?
