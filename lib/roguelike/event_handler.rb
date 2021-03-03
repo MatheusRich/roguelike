@@ -8,6 +8,7 @@ module Roguelike
       game.game_over!
     end
 
+    # TODO: rename to on_keydown
     def ev_keydown(key)
       case key
       when :up
