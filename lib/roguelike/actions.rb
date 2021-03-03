@@ -18,8 +18,6 @@ module Roguelike
   end
 
   class MovementAction < Action
-    attr_reader :dx, :dy
-
     def initialize(dx:, dy:)
       @dx = dx
       @dy = dy
