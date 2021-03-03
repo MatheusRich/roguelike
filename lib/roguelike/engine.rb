@@ -7,6 +7,8 @@ module Roguelike
   using RichEngine::StringColors
 
   class Engine
+    attr_reader :game_map
+
     def initialize(entities:, event_handler:, player:, game_map:)
       @entities = entities.to_set
       @event_handler = event_handler
@@ -17,13 +19,7 @@ module Roguelike
     def handle_events(key)
       action = @event_handler.ev_keydown(key)
 
-      if action.is_a? MovementAction
-        if walkable_tile?(x: @player.x + action.dx, y: @player.y + action.dy)
-          @player.move(dx: action.dx, dy: action.dy)
-        end
-      elsif action.is_a? EscapeAction
-        raise Roguelike::Exit
-      end
+      action.call(engine: self, entity: @player)
     end
 
     def render(canvas, io)
@@ -36,12 +32,6 @@ module Roguelike
       end
 
       io.write(canvas.canvas)
-    end
-
-    private
-
-    def walkable_tile?(x:, y:)
-      @game_map.tiles[x][y].walkable
     end
   end
 end

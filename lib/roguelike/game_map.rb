@@ -26,6 +26,10 @@ module Roguelike
       !in_bounds?(x: x, y: y)
     end
 
+    def walkable_tile?(x:, y:)
+      @tiles[x][y].walkable
+    end
+
     def render(canvas:)
       @tiles.each_with_index do |row, i|
         row.each_with_index do |tile, j|
