@@ -15,9 +15,8 @@ module Roguelike
     FPS = 30.0
 
     def on_create
-      system("tput civis") # hide cursor
-      @stty_orig = `stty -g` # save previous state
-      system("stty -echo") # disable echo
+      RichEngine::Terminal.hide_cursor
+      RichEngine::Terminal.disable_echo
 
       @analitics = Analytics.new
 
@@ -48,8 +47,8 @@ module Roguelike
     end
 
     def on_destroy
-      system("tput cnorm") # display cusor
-      system("stty #{@stty_orig}") # restore echo
+      RichEngine::Terminal.display_cursor
+      RichEngine::Terminal.enable_echo
 
       @analitics.display_fps_stats
     end
