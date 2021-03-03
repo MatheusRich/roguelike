@@ -19,3 +19,6 @@ Style/StringLiterals:
 
 Naming/MethodParameterName:
   Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
