@@ -3,11 +3,14 @@
 module Roguelike
   using RichEngine::StringColors
 
-  Graphic = Struct.new(:char, :bg, :fg, keyword_init: true) do
-    def to_s
-      char.fg(fg).bg(bg)
+  class Graphic
+    attr_reader :to_s
+
+    def initialize(char:, bg:, fg:)
+      @to_s = char.fg(fg).bg(bg)
     end
   end
+
   Tile = Struct.new(:walkable, :transparent, :dark, keyword_init: true)
 
   module Tiles
