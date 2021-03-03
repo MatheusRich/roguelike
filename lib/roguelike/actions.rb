@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module Roguelike
-  class Action
-  end
+  class Action; end
 
   class EscapeAction < Action
   end

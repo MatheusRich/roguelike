@@ -10,7 +10,7 @@ module Roguelike
   class Exit < StandardError; end
 
   class Game < RichEngine::Game
-    FPS = 1.0 / 60
+    FPS = 30
 
     def on_create
       @canvas = RichEngine::Canvas.new(@width, @height, bg: ".")
@@ -27,7 +27,7 @@ module Roguelike
       @engine.render(@canvas, @io)
       check_game_over { @engine.handle_events(key) }
 
-      sleep 0.001
+      sleep 1 / FPS
 
       keep_playing?
     end
