@@ -19,7 +19,7 @@ module Roguelike
         MovementAction.new(dx: -1, dy: 0)
       when :right
         MovementAction.new(dx: 1, dy: 0)
-      when :q
+      when :q, :esc
         EscapeAction.new
       else
         NoAction.new
