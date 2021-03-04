@@ -15,12 +15,9 @@ module Roguelike
     FPS = 30.0
 
     def on_create
-      RichEngine::Terminal.hide_cursor
-      RichEngine::Terminal.disable_echo
-
       @analitics = Analytics.new
 
-      @canvas = RichEngine::Canvas.new(@width, @height, bg: ".")
+      @canvas = RichEngine::Canvas.new(@width, @height, bg: " ")
       @game_over = false
 
       @map_width = 80
@@ -39,7 +36,7 @@ module Roguelike
 
       @engine.render(@canvas, @io)
       @io.write(@canvas.canvas)
-      check_game_over { @engine.handle_events(key) }
+      @engine.handle_events(key)
 
       # sleep_time(dt)
 
@@ -47,19 +44,10 @@ module Roguelike
     end
 
     def on_destroy
-      RichEngine::Terminal.display_cursor
-      RichEngine::Terminal.enable_echo
-
       @analitics.display_fps_stats
     end
 
     private
-
-    def check_game_over
-      yield
-    rescue Roguelike::Exit
-      game_over!
-    end
 
     def sleep_time(dt)
       extra_time = (1 / FPS) - dt
