@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Calc
-  extend self
+  module_function
 
   def mean(array)
     array.sum / [array.size, 1].max
