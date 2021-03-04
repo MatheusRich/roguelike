@@ -22,3 +22,9 @@ Naming/MethodParameterName:
 
 Lint/MissingSuper:
   Enabled: false
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+
+Metrics/MethodLength:
+  Max: 20
