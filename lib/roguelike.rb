@@ -10,7 +10,7 @@ require "roguelike/version"
 
 module Roguelike
   class Game < RichEngine::Game
-    FPS = 30.0
+    FPS = 60
 
     def on_create
       @analitics = Analytics.new if debug?
@@ -53,7 +53,7 @@ module Roguelike
     private
 
     def sleep_time(dt)
-      extra_time = (1 / FPS) - dt
+      extra_time = (1.0 / FPS) - dt
 
       sleep [0, extra_time].max
     end
