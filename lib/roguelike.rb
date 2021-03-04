@@ -13,7 +13,7 @@ module Roguelike
     FPS = 30.0
 
     def on_create
-      @analitics = Analytics.new if ENV["DEBUG"]
+      @analitics = Analytics.new if debug?
 
       @canvas = RichEngine::Canvas.new(@width, @height, bg: " ")
       @game_over = false
@@ -35,19 +35,19 @@ module Roguelike
     end
 
     def on_update(dt, key)
-      @analitics.track_fps(dt) if ENV["DEBUG"]
+      @analitics.track_fps(dt) if debug?
 
       @engine.render(@canvas, @io)
       @io.write(@canvas.canvas)
       @engine.handle_events(key)
 
-      sleep_time(dt) unless ENV["DEBUG"]
+      sleep_time(dt) unless debug?
 
       keep_playing?
     end
 
     def on_destroy
-      @analitics.display_fps_stats if ENV["DEBUG"]
+      @analitics.display_fps_stats if debug?
     end
 
     private
@@ -64,6 +64,10 @@ module Roguelike
 
     def game_over!
       @game_over = true
+    end
+
+    def debug?
+      ENV["DEBUG"]
     end
   end
 end
