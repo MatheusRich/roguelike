@@ -15,15 +15,20 @@ module Roguelike
     def display_fps_stats
       @fps.shift
 
-      puts "FPS Stats".bold
-      puts " · Mean: #{mean(@fps)}"
-      puts " · Median: #{median(@fps)}"
-      mode(@fps, first: 3).each do |m|
-        puts " · Mode: #{m[0]} (#{m[1]} times)"
+      puts "FPS STATS".bold.underline
+      puts info("Mean", mean(@fps))
+      puts info("Median", median(@fps))
+      mode(@fps, first: 3).each_with_index do |m, i|
+        puts info("Mode (top #{i + 1})", "#{m[0]} (#{m[1]} times)")
       end
     end
 
     private
+
+    def info(label, value)
+      flabel = label.bold
+      " · #{flabel}: #{value}"
+    end
 
     def mean(array)
       array.sum / [array.size, 1].max
