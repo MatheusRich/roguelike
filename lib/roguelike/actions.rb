@@ -9,7 +9,7 @@ module Roguelike
 
   class EscapeAction < Action
     def call(*)
-      raise Roguelike::Exit
+      raise Game::Exit
     end
   end
 
