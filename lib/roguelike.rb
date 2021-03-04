@@ -9,13 +9,11 @@ require "roguelike/game_map"
 require "roguelike/version"
 
 module Roguelike
-  class Exit < StandardError; end
-
   class Game < RichEngine::Game
     FPS = 30.0
 
     def on_create
-      @analitics = Analytics.new
+      @analitics = Analytics.new if ENV["DEBUG"]
 
       @canvas = RichEngine::Canvas.new(@width, @height, bg: " ")
       @game_over = false
@@ -28,23 +26,28 @@ module Roguelike
 
       @event_handler = EventHandler.new
       @game_map = GameMap.new(width: @map_width, height: @map_height)
-      @engine = Engine.new(entities: [@player, @npc], event_handler: @event_handler, player: @player, game_map: @game_map)
+      @engine = Engine.new(
+        entities:      [@player, @npc],
+        event_handler: @event_handler,
+        player:        @player,
+        game_map:      @game_map
+      )
     end
 
     def on_update(dt, key)
-      @analitics.track_fps(dt)
+      @analitics.track_fps(dt) if ENV["DEBUG"]
 
       @engine.render(@canvas, @io)
       @io.write(@canvas.canvas)
       @engine.handle_events(key)
 
-      # sleep_time(dt)
+      sleep_time(dt) unless ENV["DEBUG"]
 
       keep_playing?
     end
 
     def on_destroy
-      @analitics.display_fps_stats
+      @analitics.display_fps_stats if ENV["DEBUG"]
     end
 
     private
