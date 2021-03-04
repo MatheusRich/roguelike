@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative "calc"
+require_relative "graphics/ul"
+
 module Roguelike
   using RichEngine::StringColors
 
@@ -15,35 +18,20 @@ module Roguelike
     def display_fps_stats
       @fps.shift
 
-      puts "FPS STATS".bold.underline
-      puts info("Mean", mean(@fps))
-      puts info("Median", median(@fps))
-      mode(@fps, first: 3).each_with_index do |m, i|
-        puts info("Mode (top #{i + 1})", "#{m[0]} (#{m[1]} times)")
+      fps_mean = "Mean: ".bold + Calc.mean(@fps).to_s
+      fps_median = "Median: ".bold + Calc.median(@fps).to_s
+      mode = Calc.mode(@fps.map(&:round))
+      fps_mode = "Mode: ".bold + "#{mode[0]} (#{mode[1]} times)"
+
+      ul = Graphics::UL.build do
+        li("FPS STATS".bold.underline, marker: nil) do
+          li(fps_mean)
+          li(fps_median)
+          li(fps_mode)
+        end
       end
-    end
 
-    private
-
-    def info(label, value)
-      flabel = label.bold
-      " · #{flabel}: #{value}"
-    end
-
-    def mean(array)
-      array.sum / [array.size, 1].max
-    end
-
-    def median(array)
-      temp = array.sort
-
-      temp[array.size / 2]
-    end
-
-    def mode(array, first: 1)
-      rounded = array.map(&:round)
-
-      rounded.tally.sort_by { |(_, v)| -v }.first(first)
+      puts ul
     end
   end
 end
