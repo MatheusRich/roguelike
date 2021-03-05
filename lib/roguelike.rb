@@ -18,8 +18,8 @@ module Roguelike
       @canvas = RichEngine::Canvas.new(@width, @height, bg: " ")
       @game_over = false
 
-      @map_width = 80
-      @map_height = 25
+      @map_width = @width
+      @map_height = @height - 5
 
       @player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
       @npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)
