@@ -6,6 +6,7 @@ require "roguelike/engine"
 require "roguelike/entity"
 require "roguelike/event_handler"
 require "roguelike/game_map"
+require "roguelike/procgen"
 require "roguelike/version"
 
 module Roguelike
@@ -25,7 +26,7 @@ module Roguelike
       @npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)
 
       @event_handler = EventHandler.new
-      @game_map = GameMap.new(width: @map_width, height: @map_height)
+      @game_map = Dungeoun.create(map_width: @map_width, map_height: @map_height)
       @engine = Engine.new(
         entities:      [@player, @npc],
         event_handler: @event_handler,
