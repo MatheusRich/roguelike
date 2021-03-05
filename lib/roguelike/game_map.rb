@@ -15,8 +15,8 @@ module Roguelike
     end
 
     def in_bounds?(x:, y:)
-      x_in_bounds = (0...@width).cover? x
-      y_in_bounds = (0...@height).cover? y
+      x_in_bounds = x.between?(0, @width - 1)
+      y_in_bounds = y.between?(0, @height - 1)
 
       x_in_bounds && y_in_bounds
     end
