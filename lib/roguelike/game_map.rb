@@ -11,8 +11,7 @@ module Roguelike
     def initialize(width:, height:)
       @width = width
       @height = height
-      @tiles = Array.new(width) { Array.new(height) { Tiles::Floor } }
-      @tiles[22].fill(Tiles::Wall, 15..20)
+      @tiles = Array.new(width) { Array.new(height) { Tiles::Wall } }
     end
 
     def in_bounds?(x:, y:)
