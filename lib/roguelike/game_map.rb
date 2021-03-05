@@ -11,7 +11,7 @@ module Roguelike
     def initialize(width:, height:)
       @width = width
       @height = height
-      @tiles = Array.new(width) { Array.new(height) { Tiles::Wall } }
+      @tiles = RichEngine::Vec2.new(width: width, height: height, fill_with: Tiles::Wall)
     end
 
     def in_bounds?(x:, y:)
@@ -26,14 +26,12 @@ module Roguelike
     end
 
     def walkable_tile?(x:, y:)
-      @tiles[x][y].walkable
+      @tiles[x, y].walkable
     end
 
     def render(canvas:)
-      @tiles.each_with_index do |row, i|
-        row.each_with_index do |tile, j|
-          canvas[i, j] = tile.dark.to_s
-        end
+      @tiles.each_with_indexes do |tile, i, j|
+        canvas[i, j] = tile.dark.to_s
       end
     end
   end
