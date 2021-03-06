@@ -19,19 +19,19 @@ module Roguelike
       @canvas = RichEngine::Canvas.new(@width, @height, bg: " ")
       @game_over = false
 
-      @map_width = @width
-      @map_height = @height - 5
+      map_width = @width
+      map_height = @height - 5
 
-      @player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
-      @npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)
+      player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
+      npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)
 
-      @event_handler = EventHandler.new
-      @game_map = Dungeoun.create(map_width: @map_width, map_height: @map_height)
+      event_handler = EventHandler.new
+      game_map = Dungeoun.create(map_width: map_width, map_height: map_height)
       @engine = Engine.new(
-        entities:      [@player, @npc],
-        event_handler: @event_handler,
-        player:        @player,
-        game_map:      @game_map
+        entities:      [player, npc],
+        event_handler: event_handler,
+        player:        player,
+        game_map:      game_map
       )
     end
 
