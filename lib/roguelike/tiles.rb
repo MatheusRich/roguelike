@@ -14,7 +14,9 @@ module Roguelike
   Tile = Struct.new(:walkable, :transparent, :dark, keyword_init: true)
 
   module Tiles
+    Fire  = Tile.new(walkable: true, transparent: true, dark: Graphic.new(char: "█", bg: :transparent, fg: :red))
+    Ice   = Tile.new(walkable: true, transparent: true, dark: Graphic.new(char: "█", bg: :transparent, fg: :blue))
     Floor = Tile.new(walkable: true, transparent: true, dark: Graphic.new(char: "█", bg: :transparent, fg: :black))
-    Wall  = Tile.new(walkable: false, transparent: false, dark: Graphic.new(char: "█", bg: :transparent, fg: :white))
+    Wall  = Tile.new(walkable: false, transparent: false, dark: Graphic.new(char: "█", bg: :transparent, fg: :blue))
   end
 end
