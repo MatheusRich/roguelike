@@ -20,28 +20,29 @@ module Roguelike
       first ? modes.first(first) : modes.first
     end
 
-    # Src: https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
+    # Src: https://github.com/seandmccarthy/bresenham/blob/master/lib/bresenham/line.rb
     def bresenham(x1:, y1:, x2:, y2:)
-      Enumerator.new do |enumerator|
-        m_new = 2 * (y2 - y1)
-        slope_error_new = m_new - (x2 - x1)
+      dx     = (x2 - x1).abs
+      dy     = -(y2 - y1).abs
+      step_x = x1 < x2 ? 1 : -1
+      step_y = y1 < y2 ? 1 : -1
+      err    = dx + dy
 
-        y = y1
-
-        (x1..x2).each do |x|
-          enumerator.yield([x, y])
-
-          # Add slope to increment angle formed
-          slope_error_new += m_new
-
-          # Slope error reached limit, time to
-          # increment y and update slope error.
-          if slope_error_new >= 0
-            y += 1
-            slope_error_new -= 2 * (x2 - x1)
-          end
+      coords = Set.new [[x1, y1]]
+      begin
+        e2 = 2 * err
+        if e2 >= dy
+          err += dy
+          x1 += step_x
         end
-      end
+        if e2 <= dx
+          err += dx
+          y1 += step_y
+        end
+        coords << [x1, y1]
+      end until (x1 == x2 && y1 == y2)
+
+      coords
     end
   end
 end
