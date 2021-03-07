@@ -2,6 +2,7 @@
 
 module Roguelike
   class Entity
+    attr_accessor :x, :y
     attr_reader :x, :y, :char, :color
 
     def initialize(x:, y:, char:, color:)

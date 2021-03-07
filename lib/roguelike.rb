@@ -22,11 +22,22 @@ module Roguelike
       map_width = @width
       map_height = @height - 5
 
+      room_max_size = 10
+      room_min_size = 6
+      max_rooms = 6
+
       player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
       npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)
 
       event_handler = EventHandler.new
-      game_map = Dungeoun.create(map_width: map_width, map_height: map_height)
+      game_map = Dungeon.create(
+        player:        player,
+        max_rooms:     max_rooms,
+        map_width:     map_width,
+        map_height:    map_height,
+        room_min_size: room_min_size,
+        room_max_size: room_max_size
+      )
       @engine = Engine.new(
         entities:      [player, npc],
         event_handler: event_handler,
