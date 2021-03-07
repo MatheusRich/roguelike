@@ -6,7 +6,7 @@ module Roguelike
   using RichEngine::StringColors
 
   class GameMap
-    attr_reader :tiles
+    attr_reader :tiles, :width, :height
 
     def initialize(width:, height:)
       @width = width
