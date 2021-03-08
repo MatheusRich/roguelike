@@ -61,6 +61,7 @@ module Roguelike
       Math.sqrt(((x1 - x2)**2) + ((y1 - y2)**2))
     end
 
+    # Adapted from: https://github.com/libtcod/libtcod/blob/develop/src/libtcod/fov_circular_raycasting.c
     def fov(transparent_tiles:, pov:, radius:)
       pov_x, pov_y = pov
       fov_min_x = [pov_x - radius, 0].max.to_i
