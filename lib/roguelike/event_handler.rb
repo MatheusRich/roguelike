@@ -22,7 +22,7 @@ module Roguelike
       when :q, :esc
         EscapeAction.new
       else
-        NoAction.new
+        nil
       end
     end
   end
