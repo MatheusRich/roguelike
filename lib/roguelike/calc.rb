@@ -60,5 +60,27 @@ module Roguelike
     def distance_between_points(x1:, y1:, x2:, y2:)
       Math.sqrt(((x1 - x2)**2) + ((y1 - y2)**2))
     end
+
+    def fov(transparent_tiles:, pov:, radius:)
+      pov_x, pov_y = pov
+      fov_min_x = [pov_x - radius, 0].max
+      fov_min_y = [pov_y - radius, 0].max
+
+      fov_max_x = [pov_x + radius, transparent_tiles.size].min
+      fov_max_y = [pov_y + radius, transparent_tiles.size].min
+
+      transparent_tiles.map.with_index do |line, i|
+        line.map.with_index do |_is_transparent, j|
+          is_inside_fov = i.between?(fov_min_x, fov_max_x) && j.between?(fov_min_y, fov_max_y)
+          if is_inside_fov
+            distance_to_pov = Calc.distance_between_points(x1: i, y1: j, x2: pov_x, y2: pov_y)
+
+            distance_to_pov <= radius
+          else
+            false
+          end
+        end
+      end
+    end
   end
 end

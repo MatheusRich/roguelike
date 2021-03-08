@@ -44,35 +44,13 @@ module Roguelike
     private
 
     def update_fov
-      @game_map.visible.vec = compute_fov(
+      @game_map.visible.vec = Calc.fov(
         transparent_tiles: @game_map.transparent_tiles,
         pov:               @player.coords,
         radius:            PLAYER_FOV_RADIUS
       )
 
       update_explored_tiles
-    end
-
-    def compute_fov(transparent_tiles:, pov:, radius:)
-      pov_x, pov_y = pov
-      fov_min_x = [pov_x - radius, 0].max
-      fov_min_y = [pov_y - radius, 0].max
-
-      fov_max_x = [pov_x + radius, transparent_tiles.size].min
-      fov_max_y = [pov_y + radius, transparent_tiles.size].min
-
-      transparent_tiles.map.with_index do |line, i|
-        line.map.with_index do |_is_transparent, j|
-          is_inside_fov = i.between?(fov_min_x, fov_max_x) && j.between?(fov_min_y, fov_max_y)
-          if is_inside_fov
-            distance_to_pov = Calc.distance_between_points(x1: i, y1: j, x2: pov_x, y2: pov_y)
-
-            distance_to_pov <= radius
-          else
-            false
-          end
-        end
-      end
     end
 
     def update_explored_tiles
