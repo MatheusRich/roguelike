@@ -7,7 +7,7 @@ module Roguelike
   using RichEngine::StringColors
 
   class Engine
-    PLAYER_FOV_RADIUS = 2.5
+    PLAYER_FOV_RADIUS = 3.5
 
     attr_reader :game_map
 
@@ -35,7 +35,8 @@ module Roguelike
       @game_map.render(canvas: canvas)
 
       @entities.each do |entity|
-        canvas[entity.x, entity.y] = entity.char.send(entity.color).on_yellow
+        entity_tile_fg = @game_map.tiles[entity.x, entity.y].light.fg
+        canvas[entity.x, entity.y] = entity.char.bold.send(entity.color).bg(entity_tile_fg)
       end
 
       io.write(canvas.canvas)
