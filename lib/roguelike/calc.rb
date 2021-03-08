@@ -21,7 +21,7 @@ module Roguelike
     end
 
     # Src: https://github.com/seandmccarthy/bresenham/blob/master/lib/bresenham/line.rb
-    def bresenham(x1:, y1:, x2:, y2:)
+    def bresenham_line(x1:, y1:, x2:, y2:)
       dx     = (x2 - x1).abs
       dy     = -(y2 - y1).abs
       step_x = x1 < x2 ? 1 : -1
@@ -43,6 +43,10 @@ module Roguelike
       end until (x1 == x2 && y1 == y2)
 
       coords
+    end
+
+    def distance_between_points(x1:, y1:, x2:, y2:)
+      Math.sqrt(((x1 - x2)**2) + ((y1 - y2)**2))
     end
   end
 end
