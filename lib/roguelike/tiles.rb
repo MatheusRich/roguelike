@@ -11,12 +11,35 @@ module Roguelike
     end
   end
 
-  Tile = Struct.new(:walkable, :transparent, :dark, keyword_init: true)
+  class Tile
+    attr_reader :walkable, :transparent, :dark, :light
+
+    def initialize(walkable:, transparent:, dark:, light:)
+      @walkable = walkable
+      @transparent = transparent
+      @dark = dark
+      @light = light
+    end
+  end
 
   module Tiles
-    Fire  = Tile.new(walkable: true, transparent: true, dark: Graphic.new(char: "█", bg: :transparent, fg: :red))
-    Ice   = Tile.new(walkable: true, transparent: true, dark: Graphic.new(char: "█", bg: :transparent, fg: :blue))
-    Floor = Tile.new(walkable: true, transparent: true, dark: Graphic.new(char: "█", bg: :transparent, fg: :black))
-    Wall  = Tile.new(walkable: false, transparent: false, dark: Graphic.new(char: "█", bg: :transparent, fg: :blue))
+    Floor = Tile.new(
+      walkable:    true,
+      transparent: true,
+      dark:        Graphic.new(char: "█", bg: :transparent, fg: :blue),
+      light:       Graphic.new(char: "█", bg: :transparent, fg: :blue)
+    )
+    Wall = Tile.new(
+      walkable:    false,
+      transparent: false,
+      dark:        Graphic.new(char: "█", bg: :transparent, fg: :bright_blue),
+      light:       Graphic.new(char: "█", bg: :transparent, fg: :bright_blue)
+    )
+    Shroud = Tile.new(
+      walkable:    false,
+      transparent: false,
+      dark:        Graphic.new(char: "█", bg: :transparent, fg: :black),
+      light:       Graphic.new(char: "█", bg: :transparent, fg: :white)
+    )
   end
 end
