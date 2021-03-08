@@ -29,3 +29,6 @@ Layout/HashAlignment:
 
 Metrics/MethodLength:
   Max: 20
+
+Style/Lambda:
+  EnforcedStyle: literal
