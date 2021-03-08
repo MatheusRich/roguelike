@@ -45,7 +45,8 @@ module Roguelike
     end
 
     def transparent_tiles
-      @tiles.map(&:transparent)
+      # TODO: Is it safe to memoize this?
+      @transparent_tiles ||= @tiles.map(&:transparent)
     end
 
     private

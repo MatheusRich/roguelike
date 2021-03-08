@@ -24,7 +24,7 @@ module Roguelike
 
       room_max_size = 10
       room_min_size = 6
-      max_rooms = 6
+      max_rooms = 8
 
       player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
       npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)

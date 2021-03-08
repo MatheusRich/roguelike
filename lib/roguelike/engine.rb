@@ -7,7 +7,7 @@ module Roguelike
   using RichEngine::StringColors
 
   class Engine
-    PLAYER_FOV_RADIUS = 2.5
+    PLAYER_FOV_RADIUS = 3.5
 
     attr_reader :game_map
 
@@ -35,7 +35,7 @@ module Roguelike
       @game_map.render(canvas: canvas)
 
       @entities.each do |entity|
-        canvas[entity.x, entity.y] = entity.char.send(entity.color).on_blue
+        canvas[entity.x, entity.y] = entity.char.send(entity.color).on_yellow
       end
 
       io.write(canvas.canvas)
@@ -45,36 +45,37 @@ module Roguelike
 
     def update_fov
       @game_map.visible.vec = compute_fov(
-        transparent_tiles: @game_map.visible.vec,
+        transparent_tiles: @game_map.transparent_tiles,
         pov:               @player.coords,
         radius:            PLAYER_FOV_RADIUS
       )
 
-      merge_explored_tiles_with_visible_tiles
+      update_explored_tiles
     end
 
     def compute_fov(transparent_tiles:, pov:, radius:)
       pov_x, pov_y = pov
-      start_x = [pov_x - radius, 0].max
-      start_y = [pov_y - radius, 0].max
+      fov_min_x = [pov_x - radius, 0].max
+      fov_min_y = [pov_y - radius, 0].max
 
-      end_x = [pov_x + radius, transparent_tiles.size].min
-      end_y = [pov_y + radius, transparent_tiles.size].min
+      fov_max_x = [pov_x + radius, transparent_tiles.size].min
+      fov_max_y = [pov_y + radius, transparent_tiles.size].min
 
       transparent_tiles.map.with_index do |line, i|
-        line.map.with_index do |value, j|
-          if i.between?(start_x, end_x) && j.between?(start_y, end_y)
+        line.map.with_index do |_is_transparent, j|
+          is_inside_fov = i.between?(fov_min_x, fov_max_x) && j.between?(fov_min_y, fov_max_y)
+          if is_inside_fov
             distance_to_pov = Calc.distance_between_points(x1: i, y1: j, x2: pov_x, y2: pov_y)
 
             distance_to_pov <= radius
           else
-            value
+            false
           end
         end
       end
     end
 
-    def merge_explored_tiles_with_visible_tiles
+    def update_explored_tiles
       @game_map.explored.vec = @game_map.explored.zip(@game_map.visible).map(&:any?)
     end
   end

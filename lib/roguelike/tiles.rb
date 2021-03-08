@@ -27,13 +27,13 @@ module Roguelike
       walkable:    true,
       transparent: true,
       dark:        Graphic.new(char: "█", bg: :transparent, fg: :blue),
-      light:       Graphic.new(char: "█", bg: :transparent, fg: :blue)
+      light:       Graphic.new(char: "█", bg: :transparent, fg: :yellow)
     )
     Wall = Tile.new(
       walkable:    false,
       transparent: false,
       dark:        Graphic.new(char: "█", bg: :transparent, fg: :bright_blue),
-      light:       Graphic.new(char: "█", bg: :transparent, fg: :bright_blue)
+      light:       Graphic.new(char: "█", bg: :transparent, fg: :bright_yellow)
     )
     Shroud = Tile.new(
       walkable:    false,
