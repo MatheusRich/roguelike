@@ -1,23 +1,35 @@
 # frozen_string_literal: true
 
 module Roguelike
+  # NOTE: This module will become huge soon. I'll stuff any Math calculation here.
+  #       When it became big enough I'll split it in cohesive modules.
   module Calc
     module_function
 
-    def mean(array)
-      array.sum / [array.size, 1].max
+    def mean(list)
+      list.sum / [list.size.to_f, 1.0].max
     end
 
-    def median(array)
-      temp = array.sort
+    def median(list)
+      temp = list.sort
 
-      temp[array.size / 2]
+      temp[list.size / 2]
     end
 
-    def mode(array, first: nil)
-      modes = array.tally.sort_by { |(_, v)| -v }
+    def mode(list, first: nil)
+      modes = list.tally.sort_by { |(_, v)| -v }
 
       first ? modes.first(first) : modes.first
+    end
+
+    def variance(list)
+      list_mean = mean(list)
+      sum_of_squared_differences = list.map { |i| (i - list_mean)**2 }.sum
+      sum_of_squared_differences / list.size
+    end
+
+    def std_dev(list)
+      Math.sqrt(variance(list))
     end
 
     # Src: https://github.com/seandmccarthy/bresenham/blob/master/lib/bresenham/line.rb
