@@ -54,11 +54,11 @@ module Roguelike
       end
 
       Enumerator.new do |enum|
-        Calc.bresenham(x1: x1, y1: y1, x2: corner_x, y2: corner_y).to_a.each do |x, y|
+        Calc.bresenham_line(x1: x1, y1: y1, x2: corner_x, y2: corner_y).to_a.each do |x, y|
           enum.yield(x, y)
         end
 
-        Calc.bresenham(x1: corner_x, y1: corner_y, x2: x2, y2: y2).to_a.each do |x, y|
+        Calc.bresenham_line(x1: corner_x, y1: corner_y, x2: x2, y2: y2).to_a.each do |x, y|
           enum.yield(x, y)
         end
       end
