@@ -7,7 +7,7 @@ module Roguelike
   using RichEngine::StringColors
 
   class Engine
-    PLAYER_FOV_RADIUS = 3.5
+    PLAYER_FOV_RADIUS = 2.5
 
     attr_reader :game_map
 

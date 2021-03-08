@@ -63,23 +63,40 @@ module Roguelike
 
     def fov(transparent_tiles:, pov:, radius:)
       pov_x, pov_y = pov
-      fov_min_x = [pov_x - radius, 0].max
-      fov_min_y = [pov_y - radius, 0].max
+      fov_min_x = [pov_x - radius, 0].max.to_i
+      fov_min_y = [pov_y - radius, 0].max.to_i
 
-      fov_max_x = [pov_x + radius, transparent_tiles.size].min
-      fov_max_y = [pov_y + radius, transparent_tiles.size].min
+      fov_max_x = [pov_x + radius, transparent_tiles.size].min.to_i
+      fov_max_y = [pov_y + radius, transparent_tiles.size].min.to_i
+      fov_map = Array.new(transparent_tiles.size) { Array.new(transparent_tiles.first.size) { false } }
 
-      transparent_tiles.map.with_index do |line, i|
-        line.map.with_index do |_is_transparent, j|
-          is_inside_fov = i.between?(fov_min_x, fov_max_x) && j.between?(fov_min_y, fov_max_y)
-          if is_inside_fov
-            distance_to_pov = Calc.distance_between_points(x1: i, y1: j, x2: pov_x, y2: pov_y)
+      (fov_min_x...fov_max_x).each do |x|
+        cast_ray(fov_map, transparent_tiles, pov_x, pov_y, x, fov_min_y, radius)
+      end
+      (fov_min_y...fov_max_y).each do |y|
+        cast_ray(fov_map, transparent_tiles, pov_x, pov_y, fov_max_x, y, radius)
+      end
+      (fov_max_x).downto(fov_min_x).each do |x|
+        cast_ray(fov_map, transparent_tiles, pov_x, pov_y, x, fov_max_y, radius)
+      end
+      (fov_max_y).downto(fov_min_y).each do |y|
+        cast_ray(fov_map, transparent_tiles, pov_x, pov_y, fov_min_x, y, radius)
+      end
 
-            distance_to_pov <= radius
-          else
-            false
-          end
+      fov_map
+    end
+
+    def cast_ray(fov, transparency, origin_x, origin_y, dest_x, dest_y, radius)
+      bresenham_line(x1: origin_x, y1: origin_y, x2: dest_x, y2: dest_y).each do |current_x, current_y|
+        break if distance_between_points(x1: origin_x, y1: origin_y, x2: current_x, y2: current_y) > radius
+
+        blocks_fov = !transparency[current_x][current_y]
+        if blocks_fov
+          fov[current_x][current_y] = true
+          break
         end
+
+        fov[current_x][current_y] = true
       end
     end
   end
