@@ -39,7 +39,7 @@ module Roguelike
         room_max_size: room_max_size
       )
       @engine = Engine.new(
-        entities:      [player, npc],
+        entities:      [player],
         event_handler: event_handler,
         player:        player,
         game_map:      game_map
