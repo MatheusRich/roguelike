@@ -13,10 +13,6 @@ module Roguelike
     end
   end
 
-  class NoAction < Action
-    def call(*); end
-  end
-
   class MovementAction < Action
     def initialize(dx:, dy:)
       @dx = dx
