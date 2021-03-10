@@ -7,7 +7,7 @@ module Roguelike
   using RichEngine::StringColors
 
   class GameMap
-    attr_reader :tiles, :width, :height
+    attr_reader :tiles, :width, :height, :entities
     attr_accessor :visible, :explored
 
     def initialize(width:, height:, entities:)
@@ -49,7 +49,7 @@ module Roguelike
         next unless visible?(entity.x, entity.y)
 
         entity_tile_fg = @tiles[entity.x, entity.y].light.fg
-        canvas[entity.x, entity.y] = entity.char.send(entity.color).bg(entity_tile_fg)
+        canvas[entity.x, entity.y] = entity.char.bold.send(entity.color).bg(entity_tile_fg)
       end
     end
 

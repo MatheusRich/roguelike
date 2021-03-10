@@ -4,6 +4,7 @@ require "rich_engine"
 require "roguelike/analytics"
 require "roguelike/engine"
 require "roguelike/entity"
+require "roguelike/entity_factories"
 require "roguelike/event_handler"
 require "roguelike/game_map"
 require "roguelike/procgen"
@@ -26,16 +27,19 @@ module Roguelike
       room_min_size = 6
       max_rooms = 8
 
-      player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
+      max_monsters_per_room = 2
+
+      player = Player.dup
 
       event_handler = EventHandler.new
       game_map = Dungeon.create(
-        player:        player,
-        max_rooms:     max_rooms,
-        map_width:     map_width,
-        map_height:    map_height,
-        room_min_size: room_min_size,
-        room_max_size: room_max_size
+        player:                player,
+        max_rooms:             max_rooms,
+        map_width:             map_width,
+        map_height:            map_height,
+        room_min_size:         room_min_size,
+        room_max_size:         room_max_size,
+        max_monsters_per_room: max_monsters_per_room
       )
       @engine = Engine.new(
         event_handler: event_handler,

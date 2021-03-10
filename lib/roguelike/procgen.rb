@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require_relative "game_map"
+require_relative "entity_factories"
 
 module Roguelike
   module Dungeon
-    module_function
+    extend self
 
-    def create(max_rooms:, room_min_size:, room_max_size:, map_width:, map_height:, player:)
+    def create(max_rooms:, room_min_size:, room_max_size:, map_width:, map_height:, player:, max_monsters_per_room:)
       dungeon = GameMap.new(width: map_width, height: map_height, entities: [player])
       rooms = []
 
@@ -31,10 +32,32 @@ module Roguelike
           end
         end
 
+        place_entities(new_room, dungeon, max_monsters_per_room)
+
         rooms << new_room
       end
 
       dungeon
+    end
+
+    private
+
+    def place_entities(room, dungeon, maximum_monsters)
+      number_of_monsters = rand(0..maximum_monsters)
+
+      number_of_monsters.times do
+        x = rand((room.x1 + 1)..(room.x2 - 1))
+        y = rand((room.y1 + 1)..(room.y2 - 1))
+
+        has_entity_on_position = dungeon.entities.any? { |entity| entity.x == x && entity.y == y }
+        unless has_entity_on_position
+          if rand < 0.8
+            Orc.spawn(x: x, y: y, game_map: dungeon)
+          else
+            Troll.spawn(x: x, y: y, game_map: dungeon)
+          end
+        end
+      end
     end
   end
 
@@ -76,12 +99,12 @@ module Roguelike
     end
 
     def center
-      # @center ||= begin
+      @center ||= begin
         center_x = (@x1 + @x2) / 2
         center_y = (@y1 + @y2) / 2
 
         [center_x, center_y]
-      # end
+      end
     end
 
     def inner
