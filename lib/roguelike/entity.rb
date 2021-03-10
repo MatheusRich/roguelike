@@ -11,13 +11,11 @@ module Roguelike
       @id = new_id
       @x = x
       @y = y
-      @game_map = game_map
+      self.game_map = game_map if game_map
       @char = char
       @color = color
       @name = name
       @blocks_movement = blocks_movement
-
-      @game_map.entities.add(self) if game_map
     end
 
     def move(dx:, dy:)
@@ -54,9 +52,9 @@ module Roguelike
     end
 
     def game_map=(new_map)
-      @game_map&.entities&.delete(self)
+      @game_map&.remove_entity(self)
       @game_map = new_map
-      new_map.entities.add(self)
+      new_map.add_entity(self)
     end
 
     private

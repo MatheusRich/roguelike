@@ -60,6 +60,14 @@ module Roguelike
       @transparent_tiles ||= @tiles.map(&:transparent)
     end
 
+    def add_entity(new_entity)
+      @entities.add(new_entity)
+    end
+
+    def remove_entity(entity)
+      @entities.delete(entity)
+    end
+
     def entity_at(x:, y:)
       @entities.find { |entity| entity.x == x && entity.y == y }
     end
