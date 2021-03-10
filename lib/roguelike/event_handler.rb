@@ -12,17 +12,15 @@ module Roguelike
     def ev_keydown(key)
       case key
       when :up
-        MovementAction.new(dx: 0, dy: -1)
+        BumpAction.new(dx: 0, dy: -1)
       when :down
-        MovementAction.new(dx: 0, dy: 1)
+        BumpAction.new(dx: 0, dy: 1)
       when :left
-        MovementAction.new(dx: -1, dy: 0)
+        BumpAction.new(dx: -1, dy: 0)
       when :right
-        MovementAction.new(dx: 1, dy: 0)
+        BumpAction.new(dx: 1, dy: 0)
       when :q, :esc
         EscapeAction.new
-      else
-        nil
       end
     end
   end

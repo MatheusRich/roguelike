@@ -8,6 +8,7 @@ require "roguelike/entity_factories"
 require "roguelike/event_handler"
 require "roguelike/game_map"
 require "roguelike/procgen"
+require "roguelike/log"
 require "roguelike/version"
 
 module Roguelike
@@ -54,6 +55,7 @@ module Roguelike
       @engine.render(@canvas, @io)
       @io.write(@canvas.canvas)
       @engine.handle_events(key)
+      Log.get
 
       sleep_time(dt) unless debug?
 

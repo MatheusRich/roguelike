@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
+require 'securerandom'
+
 module Roguelike
   class Entity
     attr_accessor :x, :y
-    attr_reader :char, :color
+    attr_reader :char, :color, :name, :blocks_movement, :id
 
     def initialize(x: 0, y: 0, char: "?", color: :white, name: "<Unnamed>", blocks_movement: false)
+      @id = SecureRandom.hex(6)
       @x = x
       @y = y
       @char = char
@@ -31,6 +34,10 @@ module Roguelike
       game_map.entities.add(clone)
 
       clone
+    end
+
+    def to_s
+      @to_s ||= "#{name}:#{id}"
     end
   end
 end

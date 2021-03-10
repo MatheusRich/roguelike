@@ -23,7 +23,8 @@ module Roguelike
 
       return if action.nil?
 
-      action.call(engine: self, entity: @player)
+      action.(engine: self, entity: @player)
+      handle_enemy_turns
       update_fov
     end
 
@@ -36,6 +37,14 @@ module Roguelike
     end
 
     private
+
+    def handle_enemy_turns
+      @game_map.entities.each do |entity|
+        next if entity == @player
+
+        Log.("The #{entity} wonders when it will get to take a real turn.")
+      end
+    end
 
     def update_fov
       @game_map.visible.vec = Calc.fov(

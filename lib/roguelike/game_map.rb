@@ -58,6 +58,10 @@ module Roguelike
       @transparent_tiles ||= @tiles.map(&:transparent)
     end
 
+    def blocking_entity_at(x:, y:)
+      @entities.find { |entity| entity.blocks_movement && entity.x == x && entity.y == y }
+    end
+
     private
 
     def visible?(x, y)
