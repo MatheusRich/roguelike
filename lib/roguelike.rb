@@ -27,7 +27,6 @@ module Roguelike
       max_rooms = 8
 
       player = Entity.new(x: @width / 2, y: @height / 2, char: "@", color: :white)
-      npc = Entity.new(x: @width / 2 - 5, y: @height / 2, char: "@", color: :red)
 
       event_handler = EventHandler.new
       game_map = Dungeon.create(
@@ -39,7 +38,6 @@ module Roguelike
         room_max_size: room_max_size
       )
       @engine = Engine.new(
-        entities:      [player],
         event_handler: event_handler,
         player:        player,
         game_map:      game_map

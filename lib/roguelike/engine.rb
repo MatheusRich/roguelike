@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "set"
 require "roguelike/actions"
 
 module Roguelike
@@ -11,8 +10,7 @@ module Roguelike
 
     attr_reader :game_map
 
-    def initialize(entities:, event_handler:, player:, game_map:)
-      @entities = entities.to_set
+    def initialize(event_handler:, player:, game_map:)
       @event_handler = event_handler
       @player = player
       @game_map = game_map
@@ -33,11 +31,6 @@ module Roguelike
       canvas.clear
 
       @game_map.render(canvas: canvas)
-
-      @entities.each do |entity|
-        entity_tile_fg = @game_map.tiles[entity.x, entity.y].light.fg
-        canvas[entity.x, entity.y] = entity.char.bold.send(entity.color).bg(entity_tile_fg)
-      end
 
       io.write(canvas.canvas)
     end

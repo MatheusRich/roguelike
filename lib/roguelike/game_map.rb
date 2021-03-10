@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "set"
 require_relative "tiles"
 
 module Roguelike
@@ -9,9 +10,10 @@ module Roguelike
     attr_reader :tiles, :width, :height
     attr_accessor :visible, :explored
 
-    def initialize(width:, height:)
+    def initialize(width:, height:, entities:)
       @width = width
       @height = height
+      @entities = entities.to_set
       @tiles = RichEngine::Vec2.new(width: width, height: height, fill_with: Tiles::Wall)
       @visible = RichEngine::Vec2.new(width: width, height: height, fill_with: false)
       @explored = RichEngine::Vec2.new(width: width, height: height, fill_with: false)
@@ -41,6 +43,13 @@ module Roguelike
                        else
                          Tiles::Shroud.dark.to_s
                        end
+      end
+
+      @entities.each do |entity|
+        next unless visible?(entity.x, entity.y)
+
+        entity_tile_fg = @tiles[entity.x, entity.y].light.fg
+        canvas[entity.x, entity.y] = entity.char.send(entity.color).bg(entity_tile_fg)
       end
     end
 

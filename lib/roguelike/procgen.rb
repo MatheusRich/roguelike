@@ -7,7 +7,7 @@ module Roguelike
     module_function
 
     def create(max_rooms:, room_min_size:, room_max_size:, map_width:, map_height:, player:)
-      dungeon = GameMap.new(width: map_width, height: map_height)
+      dungeon = GameMap.new(width: map_width, height: map_height, entities: [player])
       rooms = []
 
       max_rooms.times do
