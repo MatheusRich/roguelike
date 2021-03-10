@@ -32,27 +32,47 @@ module Roguelike
       Math.sqrt(variance(list))
     end
 
-    # Src: https://github.com/seandmccarthy/bresenham/blob/master/lib/bresenham/line.rb
     def bresenham_line(x1:, y1:, x2:, y2:)
-      dx     = (x2 - x1).abs
-      dy     = -(y2 - y1).abs
-      step_x = x1 < x2 ? 1 : -1
-      step_y = y1 < y2 ? 1 : -1
-      err    = dx + dy
+      dx = x2 - x1
+      dy = y2 - y1
 
-      coords = Set.new [[x1, y1]]
-      begin
-        e2 = 2 * err
-        if e2 >= dy
-          err += dy
-          x1 += step_x
+      xsign = dx.positive? ? 1 : -1
+      ysign = dy.positive? ? 1 : -1
+
+      dx = dx.abs
+      dy = dy.abs
+
+      if dx > dy
+        xx = xsign
+        xy = 0
+        yx = 0
+        yy = ysign
+      else
+        dx, dy = dy, dx
+        xx = 0
+        xy = ysign
+        yx = xsign
+        yy = 0
+      end
+
+      d = 2 * dy - dx
+      y = 0
+
+      coords = []
+
+      (0..dx).each do |x|
+        x_coord = x1 + x * xx + y * yx
+        y_coord = y1 + x * xy + y * yy
+
+        coords << [x_coord, y_coord]
+
+        if d >= 0
+          y += 1
+          d -= 2 * dx
         end
-        if e2 <= dx
-          err += dx
-          y1 += step_y
-        end
-        coords << [x1, y1]
-      end until (x1 == x2 && y1 == y2)
+
+        d += 2 * dy
+      end
 
       coords
     end
