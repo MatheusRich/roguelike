@@ -7,6 +7,7 @@ module Roguelike
   using RichEngine::StringColors
 
   class GameMap
+    # TODO: Some getters could be specific methods, like `each_entity`
     attr_reader :tiles, :width, :height, :entities
     attr_accessor :visible, :explored
 
@@ -58,8 +59,18 @@ module Roguelike
       @transparent_tiles ||= @tiles.map(&:transparent)
     end
 
+    def entity_at(x:, y:)
+      @entities.find { |entity| entity.x == x && entity.y == y }
+    end
+
     def blocking_entity_at(x:, y:)
-      @entities.find { |entity| entity.blocks_movement && entity.x == x && entity.y == y }
+      entity = entity_at(x: x, y: y)
+
+      return entity if entity&.blocks_movement
+    end
+
+    def has_entity_at?(x:, y:)
+      !!entity_at(x: x, y: y)
     end
 
     private

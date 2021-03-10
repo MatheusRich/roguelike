@@ -49,13 +49,12 @@ module Roguelike
         x = rand((room.x1 + 1)..(room.x2 - 1))
         y = rand((room.y1 + 1)..(room.y2 - 1))
 
-        has_entity_on_position = dungeon.entities.any? { |entity| entity.x == x && entity.y == y }
-        unless has_entity_on_position
-          if rand < 0.8
-            Orc.spawn(x: x, y: y, game_map: dungeon)
-          else
-            Troll.spawn(x: x, y: y, game_map: dungeon)
-          end
+        next if dungeon.has_entity_at?(x: x, y: y)
+
+        if rand < 0.8
+          Orc.spawn(x: x, y: y, game_map: dungeon)
+        else
+          Troll.spawn(x: x, y: y, game_map: dungeon)
         end
       end
     end
