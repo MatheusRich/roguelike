@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "roguelike/actions"
+require "roguelike/event_handler"
 
 module Roguelike
   using RichEngine::StringColors
@@ -8,24 +9,12 @@ module Roguelike
   class Engine
     PLAYER_FOV_RADIUS = 3.5
 
-    attr_reader :game_map
+    attr_reader :player, :event_handler
+    attr_accessor :game_map
 
-    def initialize(event_handler:, player:, game_map:)
-      @event_handler = event_handler
+    def initialize(player:)
+      @event_handler = EventHandler.new(engine: self)
       @player = player
-      @game_map = game_map
-
-      update_fov
-    end
-
-    def handle_events(key)
-      action = @event_handler.ev_keydown(key)
-
-      return if action.nil?
-
-      action.(engine: self, entity: @player)
-      handle_enemy_turns
-      update_fov
     end
 
     def render(canvas, io)
@@ -35,8 +24,6 @@ module Roguelike
 
       io.write(canvas.canvas)
     end
-
-    private
 
     def handle_enemy_turns
       @game_map.entities.each do |entity|
@@ -55,6 +42,8 @@ module Roguelike
 
       update_explored_tiles
     end
+
+    private
 
     def update_explored_tiles
       @game_map.explored.vec = @game_map.explored.zip(@game_map.visible).map(&:any?)

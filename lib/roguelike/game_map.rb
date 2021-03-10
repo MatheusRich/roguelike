@@ -8,10 +8,11 @@ module Roguelike
 
   class GameMap
     # TODO: Some getters could be specific methods, like `each_entity`
-    attr_reader :tiles, :width, :height, :entities
+    attr_reader :tiles, :width, :height, :entities, :engine
     attr_accessor :visible, :explored
 
-    def initialize(width:, height:, entities:)
+    def initialize(engine:, width:, height:, entities:)
+      @engine = engine
       @width = width
       @height = height
       @entities = entities.to_set

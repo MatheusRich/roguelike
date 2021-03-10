@@ -5,7 +5,6 @@ require "roguelike/analytics"
 require "roguelike/engine"
 require "roguelike/entity"
 require "roguelike/entity_factories"
-require "roguelike/event_handler"
 require "roguelike/game_map"
 require "roguelike/procgen"
 require "roguelike/log"
@@ -32,9 +31,9 @@ module Roguelike
 
       player = Player.dup
 
-      event_handler = EventHandler.new
-      game_map = Dungeon.create(
-        player:                player,
+      @engine = Engine.new(player: player)
+      @engine.game_map = Dungeon.create(
+        engine:                @engine,
         max_rooms:             max_rooms,
         map_width:             map_width,
         map_height:            map_height,
@@ -42,11 +41,8 @@ module Roguelike
         room_max_size:         room_max_size,
         max_monsters_per_room: max_monsters_per_room
       )
-      @engine = Engine.new(
-        event_handler: event_handler,
-        player:        player,
-        game_map:      game_map
-      )
+
+      @engine.update_fov
     end
 
     def on_update(dt, key)
@@ -54,7 +50,7 @@ module Roguelike
 
       @engine.render(@canvas, @io)
       @io.write(@canvas.canvas)
-      @engine.handle_events(key)
+      @engine.event_handler.handle_events(key)
       Log.get
 
       sleep_time(dt) unless debug?

@@ -7,8 +7,9 @@ module Roguelike
   module Dungeon
     extend self
 
-    def create(max_rooms:, room_min_size:, room_max_size:, map_width:, map_height:, player:, max_monsters_per_room:)
-      dungeon = GameMap.new(width: map_width, height: map_height, entities: [player])
+    def create(max_rooms:, room_min_size:, room_max_size:, map_width:, map_height:, engine:, max_monsters_per_room:)
+      player = engine.player
+      dungeon = GameMap.new(engine: engine, width: map_width, height: map_height, entities: [player])
       rooms = []
 
       max_rooms.times do
@@ -25,7 +26,8 @@ module Roguelike
         dungeon.tiles.fill(x: new_room.inner[0], y: new_room.inner[1], with: Tiles::Floor)
 
         if rooms.empty?
-          player.x, player.y = new_room.center
+          room_x, room_y = new_room.center
+          player.place(x: room_x, y: room_y, game_map: dungeon)
         else
           Tunnel.between(start: rooms.last.center, end: new_room.center).each do |x_pos, y_pos|
             dungeon.tiles[x_pos, y_pos] = Tiles::Floor
@@ -87,6 +89,7 @@ module Roguelike
     end
   end
 
+  # TODO: Upstream as `Rect`
   class RetangularRoom
     attr_reader :x1, :y1, :x2, :y2, :width, :height
 
