@@ -81,6 +81,13 @@ module Roguelike
       Math.sqrt(((x1 - x2)**2) + ((y1 - y2)**2))
     end
 
+    def chebyshev_distance(x1:, y1:, x2:, y2:)
+      dx = (x1 - x2).abs
+      dy = (y1 - y2).abs
+
+      [dx, dy].max
+    end
+
     # Adapted from: https://github.com/libtcod/libtcod/blob/develop/src/libtcod/fov_circular_raycasting.c
     def fov(transparent_tiles:, pov:, radius:)
       pov_x, pov_y = pov
@@ -119,6 +126,10 @@ module Roguelike
 
         fov[current_x][current_y] = true
       end
+    end
+
+    def deep_clone(obj)
+      Marshal.load(Marshal.dump(obj))
     end
   end
 end
