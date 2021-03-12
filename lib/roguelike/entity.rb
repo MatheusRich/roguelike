@@ -29,7 +29,7 @@ module Roguelike
     alias position coords
 
     def spawn(game_map:, x:, y:)
-      clone = dup
+      clone = Calc.deep_clone(self)
       clone.id = new_id
       clone.x = x
       clone.y = y
