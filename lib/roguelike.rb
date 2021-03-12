@@ -29,7 +29,7 @@ module Roguelike
 
       max_monsters_per_room = 2
 
-      player = Player.dup
+      player = Calc.deep_clone(Player)
 
       @engine = Engine.new(player: player)
       @engine.game_map = Dungeon.create(
