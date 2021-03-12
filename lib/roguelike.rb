@@ -3,11 +3,12 @@
 require "rich_engine"
 require "roguelike/analytics"
 require "roguelike/engine"
+require "roguelike/render_order"
 require "roguelike/entity"
 require "roguelike/entity_factories"
 require "roguelike/game_map"
-require "roguelike/procgen"
 require "roguelike/log"
+require "roguelike/procgen"
 require "roguelike/version"
 
 module Roguelike

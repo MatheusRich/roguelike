@@ -10,7 +10,15 @@ module Roguelike
     attr_accessor :ai
 
     def initialize(ai_class:, fighter:, x: 0, y: 0, char: "?", color: :white, name: "<Unnamed>")
-      super(x: x, y: y, char: char, color: color, name: name, blocks_movement: true)
+      super(
+        x:               x,
+        y:               y,
+        char:            char,
+        color:           color,
+        name:            name,
+        blocks_movement: true,
+        render_order:    RenderOrder.actor
+      )
 
       @ai = ai_class.new(entity: self)
       @fighter = fighter

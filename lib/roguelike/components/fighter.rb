@@ -34,6 +34,7 @@ module Roguelike
         @entity.blocks_movement = false
         @entity.ai = nil
         @entity.name = "remains of #{@entity.name}"
+        @entity.render_order = RenderOrder.corpse
 
         Log.(death_msg)
       end

@@ -4,10 +4,10 @@ require "securerandom"
 
 module Roguelike
   class Entity
-    attr_accessor :x, :y, :id, :char, :color, :name, :blocks_movement#, :ai
+    attr_accessor :x, :y, :id, :char, :color, :name, :blocks_movement, :render_order#, :ai
     attr_reader :game_map
 
-    def initialize(game_map: nil, x: 0, y: 0, char: "?", color: :white, name: "<Unnamed>", blocks_movement: false)
+    def initialize(game_map: nil, x: 0, y: 0, char: "?", color: :white, name: "<Unnamed>", blocks_movement: false, render_order: RenderOrder.corpse)
       @id = new_id
       @x = x
       @y = y
@@ -16,6 +16,7 @@ module Roguelike
       @color = color
       @name = name
       @blocks_movement = blocks_movement
+      @render_order = render_order
     end
 
     def move(dx:, dy:)

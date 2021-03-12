@@ -47,7 +47,7 @@ module Roguelike
                        end
       end
 
-      @entities.each do |entity|
+      @entities.sort_by(&:render_order).each do |entity|
         next unless visible?(entity.x, entity.y)
 
         entity_tile_fg = @tiles[entity.x, entity.y].light.fg
