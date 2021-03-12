@@ -56,6 +56,7 @@ module Roguelike
       private
 
       def target_near?(target_x, target_y)
+        # TODO: maybe use point_distance here
         distance = Calc.chebyshev_distance(x1: target_x, y1: target_y, x2: @entity.x, y2: @entity.y)
 
         distance <= 1

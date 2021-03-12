@@ -11,7 +11,7 @@ module Roguelike
     end
 
     def get
-      puts $logs.first(3).join("\n")
+      puts $logs.first(5).join("\n")
 
       $logs.clear
     end

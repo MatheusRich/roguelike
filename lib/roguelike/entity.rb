@@ -4,8 +4,8 @@ require "securerandom"
 
 module Roguelike
   class Entity
-    attr_accessor :x, :y, :id#, :ia
-    attr_reader :char, :color, :name, :blocks_movement, :game_map
+    attr_accessor :x, :y, :id, :char, :color, :name, :blocks_movement#, :ai
+    attr_reader :game_map
 
     def initialize(game_map: nil, x: 0, y: 0, char: "?", color: :white, name: "<Unnamed>", blocks_movement: false)
       @id = new_id
@@ -54,6 +54,7 @@ module Roguelike
     def game_map=(new_map)
       @game_map&.remove_entity(self)
       @game_map = new_map
+      # binding.irb if name == "Player"
       new_map.add_entity(self)
     end
 

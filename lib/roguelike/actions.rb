@@ -50,7 +50,11 @@ module Roguelike
     end
 
     def blocking_entity
-      @engine.game_map.blocking_entity_at(x: dest_x, y: dest_y)
+      engine.game_map.blocking_entity_at(x: dest_x, y: dest_y)
+    end
+
+    def target_actor
+      engine.game_map.actor_at(x: dest_x, y: dest_y)
     end
   end
 
@@ -68,20 +72,23 @@ module Roguelike
 
   class MeleeAction < ActionWithDirection
     def call
-      destination_x, destination_y = dest_xy
+      target = target_actor or return
 
-      target = engine.game_map.blocking_entity_at(x: destination_x, y: destination_y)
-      return if target.nil?
+      damage = @entity.fighter.power - target.fighter.defense
+      attack_description = "#{@entity.name.capitalize} attacks #{target.name}"
 
-      Log.("You kick the #{target.name}, much to its annoyance!")
+      if damage.positive?
+        target.fighter.hp -= damage
+        Log.("#{attack_description} for #{damage} hit points.")
+      else
+        Log.("#{attack_description} but does no damage.")
+      end
     end
   end
 
   class BumpAction < ActionWithDirection
     def call
-      destination_x, destination_y = dest_xy
-
-      has_target = engine.game_map.blocking_entity_at(x: destination_x, y: destination_y)
+      has_target = !target_actor.nil?
       if has_target
         MeleeAction.new(entity: @entity, dx: @dx, dy: @dy).call
       else
