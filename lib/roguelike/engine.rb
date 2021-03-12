@@ -26,10 +26,10 @@ module Roguelike
     end
 
     def handle_enemy_turns
-      @game_map.entities.each do |entity|
-        next if entity == @player
+      @game_map.actors.each do |actor|
+        next if actor == @player
 
-        Log.("The #{entity} wonders when it will get to take a real turn.")
+        actor.ai&.call
       end
     end
 

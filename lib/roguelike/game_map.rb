@@ -82,11 +82,23 @@ module Roguelike
       !!entity_at(x: x, y: y)
     end
 
-    private
+    def actors
+      Enumerator.new do |enumerator|
+        @entities.each do |entity|
+          enumerator.yield(entity) if entity.is_a?(Actor) && entity.alive?
+        end
+      end
+    end
+
+    def actor_at(x:, y:)
+      actors.find { |actor| actor.x == x && actor.y == y }
+    end
 
     def visible?(x, y)
       @visible[x, y]
     end
+
+    private
 
     def explored?(x, y)
       @explored[x, y]

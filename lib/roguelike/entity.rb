@@ -4,7 +4,7 @@ require "securerandom"
 
 module Roguelike
   class Entity
-    attr_accessor :x, :y, :id
+    attr_accessor :x, :y, :id#, :ia
     attr_reader :char, :color, :name, :blocks_movement, :game_map
 
     def initialize(game_map: nil, x: 0, y: 0, char: "?", color: :white, name: "<Unnamed>", blocks_movement: false)
