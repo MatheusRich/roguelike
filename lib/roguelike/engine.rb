@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "roguelike/actions"
-require "roguelike/event_handler"
+require "roguelike/event_handlers"
 
 module Roguelike
   using RichEngine::StringColors
@@ -13,7 +13,7 @@ module Roguelike
     attr_accessor :game_map
 
     def initialize(player:)
-      @event_handler = EventHandler.new(engine: self)
+      @event_handler = MainGameEventHandler.new(engine: self)
       @player = player
     end
 
