@@ -53,6 +53,7 @@ module Roguelike
 
         next if dungeon.has_entity_at?(x: x, y: y)
 
+        # TODO: Add `Chance.one_in(5)`, `Chance.percent(80)`, `Chance.(0.8)`
         if rand < 0.8
           Orc.spawn(x: x, y: y, game_map: dungeon)
         else
