@@ -9,8 +9,8 @@ module Roguelike
   class Engine
     PLAYER_FOV_RADIUS = 5
 
-    attr_reader :player, :event_handler
-    attr_accessor :game_map
+    attr_reader :player
+    attr_accessor :game_map, :event_handler
 
     def initialize(player:)
       @event_handler = MainGameEventHandler.new(engine: self)

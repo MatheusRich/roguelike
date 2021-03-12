@@ -27,7 +27,12 @@ module Roguelike
       end
 
       def die
-        death_msg = player? ? "You died!" : "#{@entity.name} is dead!"
+        if player?
+          death_msg = "You died!"
+          engine.event_handler = GameOverEventHandler.new(engine: engine)
+        else
+          death_msg = "#{@entity.name} is dead!"
+        end
 
         @entity.char = "%"
         @entity.color = :red
@@ -40,7 +45,7 @@ module Roguelike
       end
 
       def player?
-        self == engine.player
+        @entity == engine.player
       end
     end
   end
