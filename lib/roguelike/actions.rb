@@ -22,6 +22,10 @@ module Roguelike
     end
   end
 
+  class WaitAction < Action
+    def call; end
+  end
+
   class ActionWithDirection < Action
     def initialize(entity:, dx:, dy:)
       super(entity: entity)
