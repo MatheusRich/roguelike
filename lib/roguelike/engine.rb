@@ -7,7 +7,7 @@ module Roguelike
   using RichEngine::StringColors
 
   class Engine
-    PLAYER_FOV_RADIUS = 3.5
+    PLAYER_FOV_RADIUS = 5
 
     attr_reader :player, :event_handler
     attr_accessor :game_map
@@ -21,6 +21,7 @@ module Roguelike
       canvas.clear
 
       @game_map.render(canvas: canvas)
+      canvas.write_string("HP: #{@player.fighter.hp} / #{@player.fighter.max_hp} ", x: 1, y: -1)
 
       io.write(canvas.canvas)
     end

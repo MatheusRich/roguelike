@@ -7,7 +7,7 @@ module Roguelike
     class Fighter
       include BaseComponent
 
-      attr_reader :hp, :defense, :power
+      attr_reader :hp, :max_hp, :defense, :power
 
       def initialize(hp:, defense:, power:)
         @max_hp = hp
