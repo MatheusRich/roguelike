@@ -23,7 +23,7 @@ module Roguelike
       mode = Calc.mode(@fps.map(&:round))
       fps_mode = "Mode: ".bold + "#{mode[0]} (#{mode[1]} times)"
       fps_std_dev = "Std dev: ".bold + Calc.std_dev(@fps).to_s
-      max_min = "Min/Max: ".bold + @fps.minmax.join(' / ')
+      max_min = "Min/Max: ".bold + @fps.minmax.join(" / ")
 
       ul = Graphics::UL.build do
         li("FPS STATS".bold.underline, marker: nil) do
