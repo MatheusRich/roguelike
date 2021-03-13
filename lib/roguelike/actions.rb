@@ -82,8 +82,8 @@ module Roguelike
       attack_description = "#{@entity.name.capitalize} attacks #{target.name}"
 
       if damage.positive?
-        target.fighter.hp -= damage
         engine.log.add_message("#{attack_description} for #{damage} hit points.", fg: attack_color)
+        target.fighter.hp -= damage
       else
         engine.log.add_message("#{attack_description} but does no damage.", fg: attack_color)
       end
