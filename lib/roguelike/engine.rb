@@ -28,7 +28,7 @@ module Roguelike
     end
 
     def render_hp(canvas)
-      UI::HP.render(canvas: canvas, current: @player.fighter.hp, max: @player.fighter.max_hp)
+      UI::HP.render(canvas: canvas, x: 0, y: -1, current: @player.fighter.hp, max: @player.fighter.max_hp)
     end
 
     def handle_enemy_turns
