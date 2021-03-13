@@ -2,12 +2,12 @@
 
 require "rich_engine"
 require "roguelike/analytics"
+require "roguelike/ui/color"
 require "roguelike/engine"
 require "roguelike/render_order"
 require "roguelike/entity"
 require "roguelike/entity_factories"
 require "roguelike/game_map"
-require "roguelike/log"
 require "roguelike/procgen"
 require "roguelike/version"
 
@@ -44,6 +44,10 @@ module Roguelike
       )
 
       @engine.update_fov
+
+      @engine.log.add_message(
+        "Hello and welcome, adventurer, to yet another dungeon!", fg: :blue
+      )
     end
 
     def on_update(dt, key)
@@ -52,7 +56,6 @@ module Roguelike
       @engine.render(@canvas, @io)
       @io.write(@canvas.canvas)
       @engine.event_handler.handle_events(key)
-      Log.get
 
       sleep_time(dt) unless debug?
 

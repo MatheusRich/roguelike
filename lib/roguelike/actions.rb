@@ -13,6 +13,10 @@ module Roguelike
     def engine
       @entity.game_map.engine
     end
+
+    def player?
+      @entity == engine.player
+    end
   end
 
   # TODO: Rename to `Exit`
@@ -79,10 +83,16 @@ module Roguelike
 
       if damage.positive?
         target.fighter.hp -= damage
-        Log.("#{attack_description} for #{damage} hit points.")
+        engine.log.add_message("#{attack_description} for #{damage} hit points.", fg: attack_color)
       else
-        Log.("#{attack_description} but does no damage.")
+        engine.log.add_message("#{attack_description} but does no damage.", fg: attack_color)
       end
+    end
+
+    private
+
+    def attack_color
+      player? ? UI::Color.player_atk : UI::Color.enemy_atk
     end
   end
 

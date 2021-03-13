@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require "roguelike/actions"
-require "roguelike/event_handlers"
-require "roguelike/ui/hp"
+require_relative "actions"
+require_relative "event_handlers"
+require_relative "ui/hp"
+require_relative "ui/log"
 
 module Roguelike
   using RichEngine::StringColors
@@ -10,21 +11,27 @@ module Roguelike
   class Engine
     PLAYER_FOV_RADIUS = 5
 
-    attr_reader :player
+    attr_reader :player, :log
     attr_accessor :game_map, :event_handler
 
     def initialize(player:)
       @event_handler = MainGameEventHandler.new(engine: self)
       @player = player
+      @log = UI::Log.new
     end
 
     def render(canvas, io)
       canvas.clear
 
       @game_map.render(canvas: canvas)
+      render_log(canvas)
       render_hp(canvas)
 
       io.write(canvas.canvas)
+    end
+
+    def render_log(canvas)
+      @log.render(canvas: canvas, x: 55, y: -5, width: 45, height: 5)
     end
 
     def render_hp(canvas)
