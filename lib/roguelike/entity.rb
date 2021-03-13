@@ -55,7 +55,6 @@ module Roguelike
     def game_map=(new_map)
       @game_map&.remove_entity(self)
       @game_map = new_map
-      # binding.irb if name == "Player"
       new_map.add_entity(self)
     end
 
