@@ -2,6 +2,7 @@
 
 require "roguelike/actions"
 require "roguelike/event_handlers"
+require "roguelike/ui/hp"
 
 module Roguelike
   using RichEngine::StringColors
@@ -21,9 +22,13 @@ module Roguelike
       canvas.clear
 
       @game_map.render(canvas: canvas)
-      canvas.write_string("HP: #{@player.fighter.hp} / #{@player.fighter.max_hp} ", x: 1, y: -1)
+      render_hp(canvas)
 
       io.write(canvas.canvas)
+    end
+
+    def render_hp(canvas)
+      UI::HP.render(canvas: canvas, current: @player.fighter.hp, max: @player.fighter.max_hp)
     end
 
     def handle_enemy_turns
