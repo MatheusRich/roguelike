@@ -26,7 +26,7 @@ module Roguelike
       end
 
       def enemy_die
-        :bright_magenta
+        :magenta
       end
     end
   end
