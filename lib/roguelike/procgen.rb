@@ -53,8 +53,7 @@ module Roguelike
 
         next if dungeon.has_entity_at?(x: x, y: y)
 
-        # TODO: Add `Chance.one_in(5)`, `Chance.percent(80)`, `Chance.(0.8)`
-        if rand < 0.8
+        if Chance.of(80)
           Orc.spawn(x: x, y: y, game_map: dungeon)
         else
           Troll.spawn(x: x, y: y, game_map: dungeon)
@@ -68,7 +67,7 @@ module Roguelike
       x1, y1 = opts.fetch(:start)
       x2, y2 = opts.fetch(:end)
 
-      if rand < 0.5
+      if Chance.of(50)
         # Move horizontally, then vertically.
         corner_x = x2
         corner_y = y1

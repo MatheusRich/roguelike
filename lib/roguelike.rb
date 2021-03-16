@@ -12,6 +12,8 @@ require "roguelike/procgen"
 require "roguelike/version"
 
 module Roguelike
+  Chance = RichEngine::Chance
+
   class Game < RichEngine::Game
     FPS = 60
 
