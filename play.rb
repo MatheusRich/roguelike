@@ -2,4 +2,4 @@
 
 require "roguelike"
 
-Roguelike::Game.play(100, 30)
+Roguelike::Game.play(100, 35)
