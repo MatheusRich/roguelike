@@ -16,9 +16,9 @@ module Roguelike
       @width = width
       @height = height
       @entities = entities.to_set
-      @tiles = RichEngine::Vec2.new(width: width, height: height, fill_with: Tiles::Wall)
-      @visible = RichEngine::Vec2.new(width: width, height: height, fill_with: false)
-      @explored = RichEngine::Vec2.new(width: width, height: height, fill_with: false)
+      @tiles = RichEngine::Matrix.new(width: width, height: height, fill_with: Tiles::Wall)
+      @visible = RichEngine::Matrix.new(width: width, height: height, fill_with: false)
+      @explored = RichEngine::Matrix.new(width: width, height: height, fill_with: false)
     end
 
     def in_bounds?(x:, y:)
