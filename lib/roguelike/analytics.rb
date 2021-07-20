@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "calc"
-require_relative "graphics/ul"
+require_relative "ui/ul"
 
 module Roguelike
   using RichEngine::StringColors
@@ -25,7 +25,7 @@ module Roguelike
       fps_std_dev = "Std dev: ".bold + Calc.std_dev(@fps).to_s
       max_min = "Min/Max: ".bold + @fps.minmax.join(" / ")
 
-      ul = Graphics::UL.build do
+      ul = UI::UL.build do
         li("FPS STATS".bold.underline, marker: nil) do
           li(fps_mean)
           li(fps_median)

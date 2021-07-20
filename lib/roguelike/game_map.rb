@@ -56,7 +56,6 @@ module Roguelike
     end
 
     def transparent_tiles
-      # TODO: Is it safe to memoize this?
       @transparent_tiles ||= @tiles.map(&:transparent)
     end
 
@@ -70,6 +69,10 @@ module Roguelike
 
     def entity_at(x:, y:)
       @entities.find { |entity| entity.x == x && entity.y == y }
+    end
+
+    def entities_at(x:, y:)
+      @entities.filter { |entity| entity.x == x && entity.y == y }
     end
 
     def blocking_entity_at(x:, y:)

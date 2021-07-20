@@ -4,6 +4,7 @@ require_relative "actions"
 require_relative "event_handlers"
 require_relative "ui/hp"
 require_relative "ui/log"
+require_relative "ui/names_at"
 
 module Roguelike
   using RichEngine::StringColors
@@ -20,14 +21,11 @@ module Roguelike
       @log = UI::Log.new
     end
 
-    def render(canvas, io)
-      canvas.clear
-
+    def render(canvas)
       @game_map.render(canvas: canvas)
       render_log(canvas)
       render_hp(canvas)
-
-      io.write(canvas.canvas)
+      render_names(canvas)
     end
 
     def render_log(canvas)
@@ -36,6 +34,11 @@ module Roguelike
 
     def render_hp(canvas)
       UI::HP.render(canvas: canvas, x: 0, y: -1, current: @player.fighter.hp, max: @player.fighter.max_hp)
+    end
+
+    def render_names(canvas)
+      names = UI::NamesAt.(x: @player.x, y: @player.y, game_map: @game_map)
+      canvas.write_string(names, x: 0, y: -2)
     end
 
     def handle_enemy_turns

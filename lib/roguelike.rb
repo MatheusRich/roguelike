@@ -55,7 +55,8 @@ module Roguelike
     def on_update(dt, key)
       @analitics.track_fps(dt) if debug?
 
-      @engine.render(@canvas, @io)
+      @canvas.clear
+      @engine.event_handler.on_render(@canvas)
       @io.write(@canvas.canvas)
       @engine.event_handler.handle_events(key)
 

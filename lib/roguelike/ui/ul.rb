@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Roguelike
-  module Graphics
+  module UI
     class UL
       def initialize
         @buffer = ""

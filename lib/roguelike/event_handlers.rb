@@ -18,7 +18,11 @@ module Roguelike
     end
 
     def handle_events(_key)
-      raise NotImplementedError
+      # raise NotImplementedError
+    end
+
+    def on_render(canvas)
+      @engine.render(canvas)
     end
 
     def player

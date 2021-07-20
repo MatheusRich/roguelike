@@ -10,7 +10,7 @@ module Roguelike
     color:    :white,
     name:     "Player",
     ai_class: Components::HostileEnemy,
-    fighter:  Components::Fighter.new(hp: 50, defense: 20, power: 50)
+    fighter:  Components::Fighter.new(hp: 50, defense: 2, power: 50)
   )
   Orc = Actor.new(
     char:     "o",
