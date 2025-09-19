@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = "roguelike"
   spec.version       = Roguelike::VERSION
   spec.authors       = ["Matheus Richard"]
-  spec.email         = ["matheus.richard@fretadao.com.br"]
+  spec.email         = ["matheusrichardt@gmail.com"]
 
   spec.summary       = "A roguelike"
   spec.description   = "A roguelike"
